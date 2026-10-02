@@ -7,6 +7,7 @@ import com.example.ecommerceProject.GlobalExceptions.ResourceNotFoundException;
 import com.example.ecommerceProject.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.util.LangUtil;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,14 +18,15 @@ public class UserServicesImpl implements UserServices{
 
     private final UserRepository userRepository;
     private final ConverterClass converterClass;
-//    private final OrderServices orderServices;
-//    private final ProductServices productServices;
     private final ConverterClassSecond converterClassSecond;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public ShowUserDTO addUser(UserAddRequestDTO user) {
-       User newUser = converterClass.toUser(user);
-        return converterClassSecond.toUserDTO( userRepository.save(newUser));
+       String hashedPassword = passwordEncoder.encode(user.password());
+       UserAddRequestDTO newUserAddReq = new UserAddRequestDTO(user.name(),user.email(),hashedPassword,user.age());
+       User newUser = converterClass.toUser(newUserAddReq);
+       return converterClassSecond.toUserDTO( userRepository.save(newUser));
     }
 
     public ShowUserDTO showUser(int id){
