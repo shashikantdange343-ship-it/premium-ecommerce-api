@@ -17,10 +17,10 @@ public class UserController {
 
     private final UserServices userServices;
 
-    @PostMapping("/User")
-    public ResponseEntity<ShowUserDTO> addUserRequest(@Valid @RequestBody UserAddRequestDTO user){
-       return ResponseEntity.ok(userServices.addUser(user));
-    }
+//    @PostMapping("/User")
+//    public ResponseEntity<ShowUserDTO> addUserRequest(@Valid @RequestBody UserAddRequestDTO user){
+//       return ResponseEntity.ok(userServices.addUser(user));
+//    }
 
     @GetMapping("/User/{id}")
     public ResponseEntity<ShowUserDTO> showUser(@PathVariable int id){
